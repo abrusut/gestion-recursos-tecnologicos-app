@@ -1,0 +1,93 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="row">
+
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="reactiveForm" (ngSubmit)="guardar()" class="form-horizontal form-material"
+          id="abmatributoconfiguracion">
+
+          <h2 class="card-title" *ngIf="!this.atributoConfiguracion?.id">Nueva Configuracion</h2>
+          <div *ngIf="this.atributoConfiguracion?.id">
+            <h2 class="card-title">Editar {{atributoConfiguracion?.clave}}</h2>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6" *ngIf="this.atributoConfiguracion?.id">
+              <label for="clave">Clave</label>
+              <input type="text" pInputText class="form-control" readonly id="clave" name="clave"
+                formControlName="clave" placeholder="clave">
+            </div>
+
+            <div class="form-group col-6">
+              <label for="clave" *ngIf="!this.atributoConfiguracion?.id">Clave</label>
+              <input type="text" *ngIf="!this.atributoConfiguracion?.id" pInputText class="form-control" id="clave"
+                name="clave" formControlName="clave" placeholder="Clave">
+
+              <div
+                *ngIf="reactiveForm.controls['clave'].invalid && (reactiveForm.controls['clave'].dirty || reactiveForm.controls['clave'].touched)"
+                class="alert alert-danger">
+
+                <div *ngIf="reactiveForm.controls['clave'].errors.pattern">
+                  No debe tener espacios en blanco ni caracteres especiales.
+                </div>
+                <div *ngIf="reactiveForm.controls['clave'].errors.required">
+                  Clave es requerido.
+                </div>
+                <div *ngIf="reactiveForm.controls['clave'].errors.minlength">
+                  Debe tener al menos {{reactiveForm.controls['clave'].errors.minlength.requiredLength }} carecteres
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="valor">Valor</label>
+
+              <p-editor formControlName="valor" [style]="{'height':'120px', 'width':'330px'}"></p-editor>
+            </div>
+            <div
+              *ngIf="reactiveForm.controls['valor'].invalid && (reactiveForm.controls['valor'].dirty || reactiveForm.controls['valor'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="reactiveForm.controls['valor'].errors.required">
+                Valor es requerido.
+              </div>
+              <div *ngIf="reactiveForm.controls['valor'].errors.minlength">
+                Debe tener al menos {{reactiveForm.controls['valor'].errors.minlength.requiredLength }} carecteres
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="fechaBaja">Fecha Baja</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <p-calendar id="fechaBaja" formControlName="fechaBaja" #fechaBaja
+                [showIcon]="true" dateFormat="yy-mm-dd"  [locale]="es"
+                [monthNavigator]="true" [yearRange]="yearRangeValue" [yearNavigator]="true"
+                showButtonBar="true"
+                showTime="true" hourFormat="24"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row col-lg-12">
+            <button type="submit" [disabled]="!reactiveForm.valid"
+              class="btn btn-success waves-effect waves-light m-r-10">
+              <i class="fa fa-save"></i>
+              Guardar
+            </button>
+
+            <button type="button" (click)="cancelar()" class="btn btn-secondary ml-4">
+              <i class="pi pi-caret-left"></i>
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="col-lg-12 mb-4">
+      <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dashboard Base</h6>
+          </div>
+          <div class="card-body">
+              <h4 class="card-title">{{usuario.fullName}}</h4>
+              <h6 class="card-subtitle">
+              <p> {{sistema}}, del {{ministerio |titlecase}}  </p>
+            </h6>
+            <div class="text-center">
+              <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" [src]="usuario.avatar | imagen" alt="">
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+</div>
+
+

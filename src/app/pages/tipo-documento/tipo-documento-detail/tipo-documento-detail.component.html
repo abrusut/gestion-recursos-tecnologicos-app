@@ -1,0 +1,78 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="row">
+
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="reactiveForm" (ngSubmit)="guardar()"
+          class="form-horizontal form-material"
+          id="abmtipoDocumento">
+
+          <h2 class="card-title" *ngIf="!this.tipoDocumento?.id">Nuevo Tipo Documento</h2>
+          <div *ngIf="this.tipoDocumento?.id">
+            <h2 class="card-title">Editar {{tipoDocumento?.tipo}}</h2>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6" *ngIf="this.tipoDocumento?.id">
+              <label for="tipo">Tipo</label>
+              <input type="text" pInputText class="form-control" readonly id="tipo" name="tipo"
+                formControlName="tipo" placeholder="tipo">
+            </div>
+
+            <div class="form-group col-6">
+              <label for="tipo" *ngIf="!this.tipoDocumento?.id">Tipo</label>
+              <input type="text" *ngIf="!this.tipoDocumento?.id" pInputText
+                class="form-control" id="tipo"
+                name="tipo" formControlName="tipo" placeholder="LC, DNI, LE">
+
+              <div
+                *ngIf="reactiveForm.controls['tipo'].invalid && (reactiveForm.controls['tipo'].dirty || reactiveForm.controls['tipo'].touched)"
+                class="alert alert-danger">
+
+                <div *ngIf="reactiveForm.controls['tipo'].errors.required">
+                  Tipo es requerido.
+                </div>
+                <div *ngIf="reactiveForm.controls['tipo'].errors.minlength">
+                  Debe tener al menos {{reactiveForm.controls['tipo'].errors.minlength.requiredLength }} carecteres
+                </div>
+                <div *ngIf="reactiveForm.controls['tipo'].errors.maxlength">
+                  Debe tener al menos {{reactiveForm.controls['tipo'].errors.maxlength.requiredLength }} carecteres
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="fechaBaja">Fecha Baja</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <p-calendar id="fechaBaja" formControlName="fechaBaja" #fechaBaja
+                [showIcon]="true" dateFormat="yy-mm-dd"  [locale]="es"
+                [monthNavigator]="true" [yearRange]="yearRangeValue" [yearNavigator]="true"
+                showButtonBar="true"
+                showTime="true" hourFormat="24"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row col-lg-12">
+            <button type="submit" [disabled]="!reactiveForm.valid"
+              class="btn btn-success waves-effect waves-light m-r-10">
+              <i class="fa fa-save"></i>
+              Guardar
+            </button>
+
+            <button type="button" (click)="cancelar()" class="btn btn-secondary ml-4">
+              <i class="pi pi-caret-left"></i>
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

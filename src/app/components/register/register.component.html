@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-login-image img-fluid"></div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Solicitar una Cuenta</h1>
+                </div>
+                <form ngNativeValidate [formGroup]="forma" (ngSubmit)="registrarUsuario()"
+                  class="form-horizontal form-material" id="loginform" action="index.html">
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <input formControlName="nombre" name="nombre" class="form-control" type="text" required
+                        placeholder="Nombre">
+                    </div>
+                    <div class="col-sm-6">
+                      <input formControlName="apellido" name="apellido" class="form-control" type="text" required
+                        placeholder="Apellido">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <input formControlName="correo" name="correo" class="form-control" type="email" required
+                      placeholder="Email">
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <input formControlName="password" name="password" class="form-control" type="password" required
+                        placeholder="Password">
+                    </div>
+                    <div class="col-sm-6">
+                      <input formControlName="password2" name="password2" class="form-control" type="password" required
+                        placeholder="Confirmar Password">
+                    </div>
+                  </div>
+                  <div class="form-group " *ngIf="forma.errors?.sonIguales && !forma.pristine">
+                    <p class="text-danger">
+                      Las Contraseñas deben ser iguales
+                    </p>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <div class="checkbox checkbox-primary p-t-0">
+                        <input formControlName="condiciones" name="condiciones" id="checkbox-signup" type="checkbox">
+                        <label for="checkbox-signup"> Estoy de acuerdo con los <a href="#">terminos</a></label>
+                      </div>
+                    </div>
+                  </div>
+                  <a href="index.html" class="btn btn-primary btn-user btn-block">
+                    Registrarme
+                  </a>
+                  <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">
+                      <p>Ya tiene una cuenta? <a routerLink="/login" class="text-info m-l-5"><b>Login</b></a></p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+.field-icon {
+  float: right;
+  left: -15px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+.no-pointer{
+  cursor: default !important;
+}
+.pointer{
+  cursor: pointer;
+}
+.img-50{
+  width: 50px;
+}
+
+.w70{
+  width: 70px;
+}
+
+.oculto{
+  display: none;
+}
+.fondo-negro{
+  background-color: rgba(0,0,0,0.4);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}

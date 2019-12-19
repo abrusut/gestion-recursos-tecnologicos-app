@@ -1,0 +1,11 @@
+{
+  "/app/*": {
+    "target": "http://localhost:83/gestion-recursos-tecnologicos-ms/public/index.php",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/app": ""
+    },
+    "changeOrigin": false
+  }
+}

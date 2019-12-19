@@ -1,0 +1,91 @@
+<p-growl [(value)]="msgs"></p-growl>
+<p-toolbar class="animated fadeIn">
+  <div class="ui-toolbar-group-left">
+    <div class="ui-g-12 ui-md-4">
+      <div class="ui-inputgroup">
+        <button pButton type="button" class="no-pointer" label="Buscar"></button>
+        <input #filterNombreOrDniInput type="text" pInputText size="50" [(ngModel)]="filterNombreOrDni"
+             placeholder="'Buscar por User, Nombre, Email '"
+           id="filterNombreOrDni" name="filterNombreOrDni" icon="pi pi-search"/>
+        <p-button icon="pi pi-trash" pTooltip="Limpiar Busqueda" name="clearFilterNombreOrDni" id="clearFilterNombreOrDni" type="button" (click)="filterNombreOrDni=null"></p-button>
+        <p-button icon="pi pi-refresh" pTooltip="Recargar" name="reloadUsers" id="reloadUsers" type="button" (click)="this.cargarUsuarios()"></p-button>
+      </div>
+    </div>
+  </div>
+  <div class="ui-toolbar-group-right">
+    <button type="button" class="btn btn-primary no-pointer">
+      Usuarios Registrados <span class="badge badge-light ">{{totalRecords}}</span>
+      <span class="sr-only"></span>
+    </button>
+  </div>
+</p-toolbar>
+
+
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <p-toolbar class="animated fadeIn">
+          <div class="ui-toolbar-group-left">
+            <p-splitButton label="Cantidad Registros {{this.nroFilasPorPagina}} " icon="pi pi-filter"
+              (onChange)='onChangeRecordsPerPage($event)' [model]="itemsRecordsPerPage" [(ngModel)]="nroFilasPorPagina">
+            </p-splitButton>
+          </div>
+          <div class="ui-toolbar-group-right">
+            <div class="col-12 col-sm-12 col-md-6">
+              <button pButton type="button" icon="pi pi-plus" label="Agregar"
+                [routerLink]="['/usuarios','nuevo']"
+                class="ui-button-raised"></button>
+            </div>
+          </div>
+        </p-toolbar>
+
+        <p-table #dt [columns]="cols" [value]="usuarios" [lazy]="true" (onLazyLoad)="loadUsuariosLazy($event)"
+          [paginator]="true" [rows]="nroFilasPorPagina" [totalRecords]="totalRecords" [loading]="loading"
+          sortMode="multiple">
+
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" [className]="'header-'+col.field"
+                  [ngSwitch]="col.field">
+                  <div *ngSwitchDefault [pSortableColumn]="col.field" > {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon></div>
+                  <div *ngSwitchCase="'accion'">{{col.header}}</div>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-rowUsuario let-columns="columns">
+            <tr [pSelectableRow]="rowUsuario">
+              <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <div *ngSwitchCase="'username'">
+                    <div><img
+                          [src]="rowUsuario.avatarUrl | imagen"  alt="Usuario"
+                          class="rounded-circle img-responsive img-50" /></div>
+                    {{rowUsuario.username}}
+                  </div>
+                <div *ngSwitchCase="'fullName'">{{rowUsuario.fullName}}</div>
+                <div *ngSwitchCase="'email'">{{rowUsuario.email}}</div>
+                <div *ngSwitchCase="'confirmationToken'">{{rowUsuario.confirmationToken}}</div>
+                <div *ngSwitchCase="'enabled'">
+                  <p-inputSwitch pTooltip="Activar / Desactivar" [(ngModel)]="rowUsuario.enabled" (click)="enabledUser(rowUsuario)" ></p-inputSwitch>
+                </div>
+                <div *ngSwitchCase="'accion'">
+                  <div class="lg-12">
+                    <button pTooltip="Editar Usuario" class="btn btn-primary btn-circle btn-sm" (click)="editarUsuario(rowUsuario.id)">
+                      <i class="pi pi-pencil"></i>
+                    </button>
+
+                    <button pTooltip="Desactivar Usuario"  class="btn btn-danger btn-circle btn-sm" (click)="borrar(rowUsuario)">
+                      <i class="pi pi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+                <div *ngSwitchDefault>{{rowUsuario[col.field]}}</div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

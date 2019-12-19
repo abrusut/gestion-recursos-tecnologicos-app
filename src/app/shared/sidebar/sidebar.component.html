@@ -1,0 +1,96 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+
+      <img src="../../../assets/images/gob-santafe.png" alt="Santa Fe" class="img-thumbnail rounded float-left">
+  </a>
+
+  <div class="sidebar-heading text-center">{{ATRIBUTE_MINISTERIO}}</div>
+  <div class="sidebar-heading text-center">{{ATRIBUTE_SISTEMA_NAME}}</div>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Inicio</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    PROFILE
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item" >
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Configurar</span>
+    </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">{{usuario.fullName}}:</h6>
+        <a class="collapse-item" routerLink="/profile" routerLinkActive="active">
+          <i class="pi pi-user-edit"></i>
+          Profile</a>
+      </div>
+    </div>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Pages
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#"
+        data-toggle="collapse"
+        data-target="#collapsePages"
+        aria-controls="collapsePages"
+        aria-expanded="true" >
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Menu</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+      <li *ngFor="let menu of sidebarService.menu" aria-expanded="false">
+            <h6 class="collapse-header pointer" [routerLink]="[menu.url]">{{menu.titulo}}({{menu.submenu.length}}):</h6>
+
+            <ul aria-expanded="false" >
+                <li *ngFor="let submenu of menu.submenu" style="list-style:none">
+
+                    <span class="collapse-item pointer" routerLinkActive="active" [routerLink]="[submenu.url]">
+
+                        <i *ngIf="submenu?.icono" [class]="submenu.icono"></i>
+                        <i *ngIf="!submenu?.icono" [class]="menu.icono"></i>
+                        {{submenu.titulo}}
+                    </span>
+                </li>
+            </ul>
+        </li>
+      </div>
+    </div>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+
+</ul>
+<!-- End of Sidebar -->
