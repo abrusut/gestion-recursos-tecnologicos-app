@@ -24,20 +24,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { PagesComponent } from './pages/pages.component';
 import { SharedModule } from './shared/shared.modulo';
 import { SearchInputComponent } from './components/search-input/search-input.component';
-import { AgenteListComponent } from './pages/agente-list/agente-list.component';
-import { AgenteDetailComponent } from './pages/agente-detail/agente-detail.component';
-import { DelegacionDetailComponent } from './pages/delegacion-detail/delegacion-detail.component';
-import { DelegacionListComponent } from './pages/delegacion/delegacion-list/delegacion-list.component';
-import { DireccionListComponent } from './pages/direccion/direccion-list/direccion-list.component';
-import { DireccionDetailComponent } from './pages/direccion/direccion-detail/direccion-detail.component';
-import { RecursoDetailComponent } from './pages/recurso/recurso-detail/recurso-detail.component';
-import { RecursoListComponent } from './pages/recurso/recurso-list/recurso-list.component';
-import { SecretariaListComponent } from './pages/secretaria/secretaria-list/secretaria-list.component';
-import { SecretariaDetailComponent } from './pages/secretaria/secretaria-detail/secretaria-detail.component';
-import { SituacionRevistaDetailComponent } from './pages/situacionRevista/situacion-revista-detail/situacion-revista-detail.component';
-import { SituacionRevistaListComponent } from './pages/situacionRevista/situacion-revista-list/situacion-revista-list.component';
-import { TipoRecursoListComponent } from './pages/tipoRecurso/tipo-recurso-list/tipo-recurso-list.component';
-import { TipoRecursoDetailComponent } from './pages/tipoRecurso/tipo-recurso-detail/tipo-recurso-detail.component';
 
 @NgModule({
   declarations: [
@@ -45,21 +31,7 @@ import { TipoRecursoDetailComponent } from './pages/tipoRecurso/tipo-recurso-det
     LoginComponent,
     RegisterComponent,
     PagesComponent,
-    SearchInputComponent,
-    AgenteListComponent,
-    AgenteDetailComponent,
-    DelegacionDetailComponent,
-    DelegacionListComponent,
-    DireccionListComponent,
-    DireccionDetailComponent,
-    RecursoDetailComponent,
-    RecursoListComponent,
-    SecretariaListComponent,
-    SecretariaDetailComponent,
-    SituacionRevistaDetailComponent,
-    SituacionRevistaListComponent,
-    TipoRecursoListComponent,
-    TipoRecursoDetailComponent
+    SearchInputComponent
   ],
   imports: [
     APP_ROUTING,

@@ -61,7 +61,69 @@ export class SidebarService {
           { titulo: 'Nuevo', url: '/tipo-documento/nuevo', icono: 'pi pi-plus'  }
         ],
         roles: ['ROLE_ADMIN']
+      },
+      {
+        titulo: 'Agentes',
+        icono: 'fas fa-fw fa-folder',
+        url: '/agente',
+        submenu: [
+          { titulo: 'Listado', url: '/agente', icono: 'pi pi-cog'  },
+          { titulo: 'Nuevo', url: '/agente/nuevo', icono: 'pi pi-plus'  }
+        ],
+        roles: ['ROLE_ADMIN']
+      },
+      {
+        titulo: 'Delegaciones',
+        icono: 'fas fa-fw fa-folder',
+        url: '/delegacion',
+        submenu: [
+          { titulo: 'Listado', url: '/delegacion', icono: 'pi pi-cog'  },
+          { titulo: 'Nuevo', url: '/delegacion/nuevo', icono: 'pi pi-plus'  }
+        ],
+        roles: ['ROLE_ADMIN']
+      },
+      {
+        titulo: 'Direcciones',
+        icono: 'fas fa-fw fa-folder',
+        url: '/direcciones',
+        submenu: [
+          { titulo: 'Listado', url: '/direcciones', icono: 'pi pi-cog'  },
+          { titulo: 'Nuevo', url: '/direcciones/nuevo', icono: 'pi pi-plus'  }
+        ],
+        roles: ['ROLE_ADMIN']
+      },
+      {
+        titulo: 'Secretarias',
+        icono: 'fas fa-fw fa-folder',
+        url: '/secretaria',
+        submenu: [
+          { titulo: 'Listado', url: '/secretaria', icono: 'pi pi-cog'  },
+          { titulo: 'Nuevo', url: '/secretaria/nuevo', icono: 'pi pi-plus'  }
+        ],
+        roles: ['ROLE_ADMIN']
+      },
+      {
+        titulo: 'Situacion Revista',
+        icono: 'fas fa-fw fa-folder',
+        url: '/situacionRevista',
+        submenu: [
+          { titulo: 'Listado', url: '/situacionRevista', icono: 'pi pi-cog'  },
+          { titulo: 'Nuevo', url: '/situacionRevista/nuevo', icono: 'pi pi-plus'  }
+        ],
+        roles: ['ROLE_ADMIN']
+      },
+      {
+        titulo: 'Tipo Recurso',
+        icono: 'fas fa-fw fa-folder',
+        url: '/tipoRecurso',
+        submenu: [
+          { titulo: 'Listado', url: '/tipoRecurso', icono: 'pi pi-cog'  },
+          { titulo: 'Nuevo', url: '/tipoRecurso/nuevo', icono: 'pi pi-plus'  }
+        ],
+        roles: ['ROLE_ADMIN']
       }
+
+
     ];
 
     this.securityService.checkPermision(this.menu);
