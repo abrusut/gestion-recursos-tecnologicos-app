@@ -104,7 +104,16 @@ export class TipoDocumentoService {
       );
   }
 
-  findAll(page: number , size: number , termino: string, multiSortMeta: SortMeta[]) {
+  findAll(page: number , size: number , termino: string, multiSortMeta: SortMeta[], accept: string = undefined) {
+
+    let httpOptions: any = {};
+    if ( accept !== undefined && accept !== null && accept === 'json') {
+       httpOptions = {
+        headers: new HttpHeaders({ 'Accept': 'application/json' })
+      };
+    }
+
+
     let url = `${this.serviceBaseURL}/${this.pathEntityResource}?size=${size}&page=${page}`;
 
     if (termino !== undefined && termino !== null && termino.length > 0) {
@@ -122,10 +131,10 @@ export class TipoDocumentoService {
       });
     }
 
-    return this.http.get(url).pipe(
-      map((atributosConfiguracion: any) => {
-        this.commonService.normalizePropertyDate(atributosConfiguracion);
-        return atributosConfiguracion;
+    return this.http.get(url, httpOptions).pipe(
+      map((tipoDocumentos: any) => {
+        this.commonService.normalizePropertyDate(tipoDocumentos);
+        return tipoDocumentos;
       }),
       catchError((error: HttpErrorResponse) => this.handleError(error))); ;
   }

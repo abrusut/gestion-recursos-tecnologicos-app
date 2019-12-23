@@ -1,1 +1,209 @@
-<p>agente-detail works!</p>
+<p-growl [(value)]="msgs"></p-growl>
+<div class="row">
+
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="reactiveForm" (ngSubmit)="guardar()" class="form-horizontal form-material" id="abmagente">
+
+          <h2 class="card-title" *ngIf="!this.agente?.id">Nuevo Agente</h2>
+          <div *ngIf="this.agente?.id">
+            <h2 class="card-title">Editar {{agente?.nombre}} - {{agente?.apellido}}</h2>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="nombre">Nombre</label>
+              <input type="text" pInputText class="form-control" id="nombre" name="nombre" formControlName="nombre"
+                placeholder="Nombre">
+
+              <div
+                *ngIf="reactiveForm.controls['nombre'].invalid && (reactiveForm.controls['nombre'].dirty || reactiveForm.controls['nombre'].touched)"
+                class="alert alert-danger">
+                <div *ngIf="reactiveForm.controls['nombre'].errors.required">
+                  Nombre es requerido.
+                </div>
+                <div *ngIf="reactiveForm.controls['nombre'].errors.minlength">
+                  Debe tener al menos {{reactiveForm.controls['nombre'].errors.minlength.requiredLength }} carecteres
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="apellido">Apellido</label>
+              <input type="text" pInputText class="form-control" id="apellido" name="apellido"
+                formControlName="apellido" placeholder="Apellido">
+
+              <div
+                *ngIf="reactiveForm.controls['apellido'].invalid && (reactiveForm.controls['apellido'].dirty || reactiveForm.controls['apellido'].touched)"
+                class="alert alert-danger">
+                <div *ngIf="reactiveForm.controls['apellido'].errors.required">
+                  Apellido es requerido.
+                </div>
+                <div *ngIf="reactiveForm.controls['apellido'].errors.minlength">
+                  Debe tener al menos {{reactiveForm.controls['apellido'].errors.minlength.requiredLength }} carecteres
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="sexo">Sexo</label>
+              <p-radioButton name="sexo" value="M" formControlName="sexo" label="M"></p-radioButton>
+              <p-radioButton name="sexo" value="F" formControlName="sexo" label="F"></p-radioButton>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="tipoDocumento">Tipo Documento</label>
+              <p-autoComplete formControlName="tipoDocumento" field="tipo" [suggestions]="filterOptionsTipoDocumento"
+                (completeMethod)="filtrar($event)" id="tipoDocumento" dataKey="id"
+                emptyMessage="No existe tipo documento" required name="tipoDocumento" minLength="1" delay="300"
+                [dropdown]="true" placeholder="Seleccione Tipo Documento" [forceSelection]="true">
+                <ng-template let-tipoDoc pTemplate="item">
+                  <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                    <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{tipoDoc?.tipo}}</div>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+              <div
+                *ngIf="reactiveForm.controls['tipoDocumento'].invalid && (reactiveForm.controls['tipoDocumento'].dirty || reactiveForm.controls['tipoDocumento'].touched)"
+                class="alert alert-danger">
+                <div *ngIf="reactiveForm.controls['tipoDocumento'].errors.required">
+                  Tipo Documento es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="numeroDocumento">Numero Documento</label>
+              <input type="number" pInputText class="form-control" id="numeroDocumento" name="numeroDocumento"
+                formControlName="numeroDocumento" placeholder="Numero Documento">
+            </div>
+            <div
+              *ngIf="reactiveForm.controls['numeroDocumento'].invalid && (reactiveForm.controls['numeroDocumento'].dirty || reactiveForm.controls['numeroDocumento'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="reactiveForm.controls['numeroDocumento'].errors.required">
+                Numero Documento es requerido.
+              </div>
+              <div *ngIf="reactiveForm.controls['numeroDocumento'].errors.pattern">
+                El valor ingresado solo puede ser Numerico.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="fechaNacimiento">Fecha Nacimiento</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <p-calendar id="fechaNacimiento" formControlName="fechaNacimiento" #fechaNacimiento [showIcon]="true"
+                dateFormat="yy-mm-dd" [locale]="es" [monthNavigator]="true" [yearRange]="yearRangeValueFechaNacimiento"
+                [yearNavigator]="true" showButtonBar="true"></p-calendar>
+              <div
+                *ngIf="reactiveForm.controls['fechaNacimiento'].invalid && (reactiveForm.controls['fechaNacimiento'].dirty || reactiveForm.controls['fechaNacimiento'].touched)"
+                class="alert alert-danger">
+                <div *ngIf="reactiveForm.controls['fechaNacimiento'].errors.required">
+                  Fecha Nacimiento es requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="domicilioCalle">Domicilio Calle</label>
+              <input type="text" pInputText class="form-control" id="domicilioCalle" name="domicilioCalle"
+                formControlName="domicilioCalle" placeholder="Domicilio Calle">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="domicilioNumero">Domicilio Numero</label>
+              <input type="number" pInputText class="form-control" id="domicilioNumero" name="domicilioNumero"
+                formControlName="domicilioNumero" placeholder="Domicilio Numero">
+            </div>
+            <div
+              *ngIf="reactiveForm.controls['domicilioNumero'].invalid && (reactiveForm.controls['domicilioNumero'].dirty || reactiveForm.controls['domicilioNumero'].touched)"
+              class="alert alert-danger">
+
+              <div *ngIf="reactiveForm.controls['domicilioNumero'].errors.pattern">
+                El valor ingresado solo puede ser Numerico.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="telefono">Numero Telefonico</label>
+              <input type="text" pInputText class="form-control" id="telefono" name="telefono"
+                formControlName="telefono" placeholder="Numero Telefonico">
+            </div>
+            <div
+              *ngIf="reactiveForm.controls['telefono'].invalid && (reactiveForm.controls['telefono'].dirty || reactiveForm.controls['telefono'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="reactiveForm.controls['telefono'].errors.required">
+                Numero Telefonico es requerido.
+              </div>
+              <div *ngIf="reactiveForm.controls['telefono'].errors.maxlength">
+                Debe tener menos de {{reactiveForm.controls['telefono'].errors.maxlength.requiredLength }} carecteres
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="email">Email</label>
+              <input pInputText type="email" pInputText class="form-control" name="email" id="email"
+                formControlName="email" placeholder="Email">
+            </div>
+            <div
+              *ngIf="reactiveForm.controls['email'].invalid && (reactiveForm.controls['email'].dirty || reactiveForm.controls['email'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="reactiveForm.controls['email'].errors.required">
+                Email es requerido.
+              </div>
+              <div *ngIf="reactiveForm.controls['email'].errors.email">
+                Debe ser un email valido
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="fechaBaja">Fecha Baja</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <p-calendar id="fechaBaja" formControlName="fechaBaja" #fechaBaja [showIcon]="true" dateFormat="yy-mm-dd"
+                [locale]="es" [monthNavigator]="true" [yearRange]="yearRangeValue" [yearNavigator]="true"
+                showButtonBar="true" showTime="true" hourFormat="24"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row col-lg-12">
+            <button type="submit" [disabled]="!reactiveForm.valid"
+              class="btn btn-success waves-effect waves-light m-r-10">
+              <i class="fa fa-save"></i>
+              Guardar
+            </button>
+
+            <button type="button" (click)="cancelar()" class="btn btn-secondary ml-4">
+              <i class="pi pi-caret-left"></i>
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

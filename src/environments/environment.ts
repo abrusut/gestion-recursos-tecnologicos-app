@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  API_URI_BACKEND: '/api', // Uri usada para las relaciones en save (@id:2 ==> @id: /api/{entity}/2)
   REGISTROS_PER_PAGE : 10,
   URL_API : 'http://localhost:83/gestion-recursos-tecnologicos-ms/public/index.php/api',
   URL_RESOURCES : 'http://localhost:83/gestion-recursos-tecnologicos-ms/public',

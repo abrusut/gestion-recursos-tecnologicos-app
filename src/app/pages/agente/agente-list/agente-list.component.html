@@ -1,1 +1,79 @@
-<p>agente-list works!</p>
+<p-growl [(value)]="msgs"></p-growl>
+<p-toolbar class="animated fadeIn">
+  <div class="ui-toolbar-group-left">
+    <div class="ui-g-12 ui-md-4">
+      <div class="ui-inputgroup">
+        <button pButton type="button" class="no-pointer" label="Buscar"></button>
+        <input #filterSearch type="text" pInputText size="50" [(ngModel)]="filterSearchInput"
+             placeholder="'Buscar por Apellido, Nombre, Numero Documento '"
+           id="filterSearchInput" name="filterSearchInput" icon="pi pi-search"/>
+        <p-button icon="pi pi-trash" pTooltip="Limpiar Busqueda" name="clearfilterSearchInput" id="clearFilterNombreOrDni" type="button" (click)="filterSearchInput=null"></p-button>
+        <p-button icon="pi pi-refresh" pTooltip="Recargar" name="reload" id="reload" type="button" (click)="this.cargarRegistros()"></p-button>
+      </div>
+    </div>
+  </div>
+  <div class="ui-toolbar-group-right">
+    <button type="button" class="btn btn-primary no-pointer">
+      Cantidad Registros <span class="badge badge-light ">{{totalRecords}}</span>
+      <span class="sr-only"></span>
+    </button>
+  </div>
+</p-toolbar>
+
+
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <p-toolbar class="animated fadeIn">
+          <div class="ui-toolbar-group-left">
+            <p-splitButton label="Cantidad Registros {{this.nroFilasPorPagina}} " icon="pi pi-filter"
+              (onChange)='onChangeRecordsPerPage($event)' [model]="itemsRecordsPerPage" [(ngModel)]="nroFilasPorPagina">
+            </p-splitButton>
+          </div>
+          <div class="ui-toolbar-group-right">
+            <div class="col-12 col-sm-12 col-md-6">
+              <button pButton type="button" icon="pi pi-plus" label="Agregar" [routerLink]="['/agente','nuevo']"
+                class="ui-button-raised"></button>
+
+            </div>
+          </div>
+        </p-toolbar>
+
+        <p-table #dt [columns]="cols" [value]="agentes" [lazy]="true" (onLazyLoad)="loadLazy($event)"
+          [paginator]="true" [rows]="nroFilasPorPagina" [totalRecords]="totalRecords" [loading]="loading"
+          sortMode="multiple">
+
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" [className]="'header-'+col.field"
+                  [ngSwitch]="col.field">
+                  <div *ngSwitchDefault [pSortableColumn]="col.field" > {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon></div>
+                  <div *ngSwitchCase="'accion'">{{col.header}}</div>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-rowAgente let-columns="columns">
+            <tr [pSelectableRow]="rowAgente">
+              <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <div *ngSwitchCase="'accion'">
+                  <div class="lg-12">
+                    <button pTooltip="Editar" class="btn btn-primary btn-circle btn-sm" (click)="editar(rowAgente.id)">
+                      <i class="pi pi-pencil"></i>
+                    </button>
+
+                    <button pTooltip="Desactivar"  class="btn btn-danger btn-circle btn-sm" (click)="borrar(rowAgente)">
+                      <i class="pi pi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+                <div *ngSwitchDefault>{{rowAgente[col.field]}}</div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

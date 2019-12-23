@@ -10,7 +10,7 @@ export interface Agente {
   tipoDocumento?: TipoDocumento;
   numeroDocumento?: number;
   sexo?: string;
-  telefono?: number;
+  telefono?: string;
   email?: string;
   createdAt?: Date;
   updatedAt?: Date;

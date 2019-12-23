@@ -7,13 +7,14 @@ import { environment } from 'src/environments/environment';
 import { UsuarioService } from '../usuario/usuario.service';
 import * as moment from 'moment';
 import { DateUtils } from '../utils/dateUtils';
-import { isArray } from 'util';
+import { isArray, isNumber } from 'util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
+  apiBackendUri: string = environment.API_URI_BACKEND;
   constructor() { }
 
   handlerError(err: any): Exception {
@@ -87,6 +88,38 @@ export class CommonService {
     });
     return isMessageForUser;
 
+  }
+
+
+  /**
+   * Funcion que convierte el valor id: 2 de un objeto a id: /api/{entityName}/2
+   * Esto es por que el backend tiene Api Platform y las relaciones las recibe asi
+   * @param object
+   */
+  normalizeIdPropertyToUri( object: any, entityPath: string = '') {
+    if (object === undefined || object === null) {
+      return null;
+    }
+
+    // Para objetos planos
+    if (isNumber(object)) {
+      return `${this.apiBackendUri}/${entityPath}/${object}` ;
+    }
+
+    // Recorro el objeto o array buscando propiedades ID
+    Object.keys(object).forEach((key: any) => {
+      const value: any = object[key];
+      // si el valor es una array
+      if (value !== undefined && (Array.isArray(value) || typeof value === 'object' )) {
+        return this.normalizeIdPropertyToUri(value, entityPath);
+      }
+      if (key !== undefined && key !== null &&
+          key === 'id') {
+            object[key] = `${this.apiBackendUri}/${entityPath}/${object[key]}` ;
+      }
+    });
+
+    return object;
   }
 
   /**

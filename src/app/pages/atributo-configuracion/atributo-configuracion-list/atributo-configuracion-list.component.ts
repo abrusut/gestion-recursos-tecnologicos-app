@@ -99,9 +99,6 @@ export class AtributoConfiguracionListComponent implements OnInit {
           });
   }
 
-  ngAfterViewInit() {
-
-  }
 
   ordenarTabla(event: SortEvent) {
     console.log(event);
