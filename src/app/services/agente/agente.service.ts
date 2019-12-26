@@ -71,7 +71,6 @@ export class AgenteService {
 
   guardar(agente: Agente) {
     const url: string = `${this.serviceBaseURL}/${this.pathEntityResource}`;
-
     if (agente !== undefined && agente.id !== undefined && Number(agente.id) !== 0 ) {
      return this.actualizar(agente);
     } else {
@@ -88,6 +87,9 @@ export class AgenteService {
 
   actualizar(agente: Agente) {
     const url = `${this.serviceBaseURL}/${this.pathEntityResource}/${agente.id}` ;
+    delete agente.id;
+    agente.tipoDocumento.id =
+        this.commonService.normalizeIdPropertyToUri(agente.tipoDocumento.id, 'tipo-documentos');
 
     return this.http
       .put(url, agente)
@@ -127,7 +129,7 @@ export class AgenteService {
         this.commonService.normalizePropertyDate(agentes);
         return agentes;
       }),
-      catchError((error: HttpErrorResponse) => this.handleError(error))); ;
+      catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
 
   findById(id: number): Observable<Agente> {
@@ -136,10 +138,7 @@ export class AgenteService {
     return this.http.get<Agente>(url, { params })
               .pipe(
                 map((agente: any) => {
-                  if (agente.fechaBaja !== undefined &&
-                    agente.fechaBaja !== null) {
-                    agente.fechaBaja = DateUtils.convertStringToDate(agente.fechaBaja);
-                  }
+                  this.commonService.normalizePropertyDate(agente);
                   return agente;
                 }),
                 catchError((error: HttpErrorResponse) => this.handleError(error)));

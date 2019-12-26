@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { Usuario } from "src/app/domain/usuario.domain";
+import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/domain/usuario.domain';
 import {
   CommonService,
   UsuarioService,
   AgenteService,
   TipoDocumentoService
-} from "src/app/services/service.index";
+} from 'src/app/services/service.index';
 import {
   FormBuilder,
   FormGroup,
@@ -14,31 +14,31 @@ import {
   AbstractControl,
   ValidationErrors,
   AsyncValidatorFn
-} from "@angular/forms";
-import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-import { Message, SelectItem, SortMeta } from "primeng/api";
-import Swal from "sweetalert2";
+} from '@angular/forms';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Message, SelectItem, SortMeta } from 'primeng/api';
+import Swal from 'sweetalert2';
 
-import { switchMap, debounceTime, map } from "rxjs/operators";
+import { switchMap, debounceTime, map } from 'rxjs/operators';
 
-import { Observable, combineLatest } from "rxjs";
-import { environment } from "../../../../environments/environment";
-import { Exception } from "src/app/domain/exception.domain";
-import { userInfo } from "os";
-import { Agente } from "src/app/domain/agente.domain";
-import { TipoDocumento } from "src/app/domain/tipo.documento.domain";
-import * as moment from "moment";
+import { Observable, combineLatest } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { Exception } from 'src/app/domain/exception.domain';
+import { userInfo } from 'os';
+import { Agente } from 'src/app/domain/agente.domain';
+import { TipoDocumento } from 'src/app/domain/tipo.documento.domain';
+import * as moment from 'moment';
 
 declare function init_plugins();
 
 @Component({
-  selector: "app-agente-detail",
-  templateUrl: "./agente-detail.component.html",
-  styleUrls: ["./agente-detail.component.scss"]
+  selector: 'app-agente-detail',
+  templateUrl: './agente-detail.component.html',
+  styleUrls: ['./agente-detail.component.scss']
 })
 export class AgenteDetailComponent implements OnInit {
-  public apiUriEntityPathTipoDocumento: string = 'tipo-documentos';
-  public apiUriEntityPathAgente: string = 'agentes';
+  public apiUriEntityPathTipoDocumento = 'tipo-documentos';
+  public apiUriEntityPathAgente = 'agentes';
   public yearRangeValue: any;
   public yearRangeValueFechaNacimiento: any;
   public es: any;
@@ -46,7 +46,7 @@ export class AgenteDetailComponent implements OnInit {
   agente: Agente = {};
   public reactiveForm: FormGroup;
   public msgs: Message[];
-  soloNumeros: RegExp = new RegExp("^([0-9])*$");
+  soloNumeros: RegExp = new RegExp('^([0-9])*$');
 
   public tiposDocumento: TipoDocumento[];
   // Array FILTRADO de Opciones del Deplegable de TipoDocumento
@@ -71,12 +71,12 @@ export class AgenteDetailComponent implements OnInit {
     this.cargarTiposDocumento();
     this.reactiveForm = this.fb.group({
       nombre: [
-        "",
+        '',
         {
           validators: [Validators.required, Validators.minLength(1)]
         }
       ],
-      apellido: ["", [Validators.required, Validators.minLength(1)]],
+      apellido: ['', [Validators.required, Validators.minLength(1)]],
       fechaNacimiento: [null],
       domicilioCalle: [null],
       domicilioNumero: [null, [Validators.pattern(this.soloNumeros)]],
@@ -86,7 +86,7 @@ export class AgenteDetailComponent implements OnInit {
         [Validators.required, Validators.pattern(this.soloNumeros)]
       ],
       sexo: [null, [Validators.required]],
-      telefono: [null, [Validators.maxLength(25)]],
+      telefono: ['', [Validators.maxLength(25)]],
       email: [null, [Validators.required, Validators.email]],
       fechaBaja: [null]
     });
@@ -94,7 +94,7 @@ export class AgenteDetailComponent implements OnInit {
     // Levanto el Usuario por parametro
     this.activatedRoute.params.subscribe(params => {
       const id: string = params.id;
-      if (id !== undefined && id !== "nuevo") {
+      if (id !== undefined && id !== 'nuevo') {
         this.cargar(id);
       }
     });
@@ -102,46 +102,46 @@ export class AgenteDetailComponent implements OnInit {
     this.es = {
       firstDayOfWeek: 1,
       dayNames: [
-        "domingo",
-        "lunes",
-        "martes",
-        "miércoles",
-        "jueves",
-        "viernes",
-        "sábado"
+        'domingo',
+        'lunes',
+        'martes',
+        'miércoles',
+        'jueves',
+        'viernes',
+        'sábado'
       ],
-      dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
-      dayNamesMin: ["D", "L", "M", "X", "J", "V", "S"],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
       monthNames: [
-        "enero",
-        "febrero",
-        "marzo",
-        "abril",
-        "mayo",
-        "junio",
-        "julio",
-        "agosto",
-        "septiembre",
-        "octubre",
-        "noviembre",
-        "diciembre"
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre'
       ],
       monthNamesShort: [
-        "ene",
-        "feb",
-        "mar",
-        "abr",
-        "may",
-        "jun",
-        "jul",
-        "ago",
-        "sep",
-        "oct",
-        "nov",
-        "dic"
+        'ene',
+        'feb',
+        'mar',
+        'abr',
+        'may',
+        'jun',
+        'jul',
+        'ago',
+        'sep',
+        'oct',
+        'nov',
+        'dic'
       ],
-      today: "Hoy",
-      clear: "Borrar"
+      today: 'Hoy',
+      clear: 'Borrar'
     };
 
     this.setYearRangeValue();
@@ -150,10 +150,10 @@ export class AgenteDetailComponent implements OnInit {
 
   cargarTiposDocumento() {
     const nroFilasPorPagina: number = environment.REGISTROS_PER_PAGE;
-    const paginaActual: number = 1;
+    const paginaActual = 1;
     const multiSortMeta: SortMeta[] = [];
     this.tipoDocumentoService
-      .findAll(paginaActual, nroFilasPorPagina, null, multiSortMeta, "json")
+      .findAll(paginaActual, nroFilasPorPagina, null, multiSortMeta, 'json')
       .subscribe(
         (respTiposDocumentos: any) => {
           if (
@@ -162,7 +162,10 @@ export class AgenteDetailComponent implements OnInit {
             respTiposDocumentos.length > 0
           ) {
             this.tiposDocumento = respTiposDocumentos as TipoDocumento[];
-            this.tiposDocumento = this.commonService.normalizeIdPropertyToUri(this.tiposDocumento, this.apiUriEntityPathTipoDocumento)
+            this.tiposDocumento = this.commonService.normalizeIdPropertyToUri(
+              this.tiposDocumento,
+              this.apiUriEntityPathTipoDocumento
+            );
             console.log(
               `Tipo documentos encontrados ${JSON.stringify(
                 this.tiposDocumento
@@ -182,7 +185,7 @@ export class AgenteDetailComponent implements OnInit {
   // Carga el rango de años de los calendarios
   // ==================================
   setYearRangeValueFechaNacimiento() {
-    const yearMin: number = 1800;
+    const yearMin = 1800;
     const yearMaxTmp = new Date();
     yearMaxTmp.setFullYear(yearMaxTmp.getFullYear() + 10);
     const yearMax = yearMaxTmp.getFullYear();
@@ -212,7 +215,7 @@ export class AgenteDetailComponent implements OnInit {
       if (!moment(this.agente.fechaBaja).isValid()) {
         this.agente.fechaBaja = null;
       }
-      this.commonService.normalizePropertyDate(this.agente);
+      this.commonService.normalizePropertyDate(this.agente, true);
       this.reactiveForm.patchValue(this.agente);
     });
   }
@@ -223,15 +226,13 @@ export class AgenteDetailComponent implements OnInit {
   guardar() {
     this.submitted = true;
     if (this.reactiveForm.invalid) {
-      Swal.fire("Importante", "Debe completar todo el formulario", "warning");
+      Swal.fire('Importante', 'Debe completar todo el formulario', 'warning');
       return;
     }
 
     const idAux = this.agente.id;
     this.agente = this.reactiveForm.value;
     this.agente.id = idAux;
-
-    this.agente.id =this.commonService.normalizeIdPropertyToUri(this.agente.id, this.apiUriEntityPathAgente);
 
     if (this.agente.fechaBaja !== undefined && this.agente.fechaBaja !== null) {
       if (!moment(this.agente.fechaBaja).isValid()) {
@@ -245,7 +246,7 @@ export class AgenteDetailComponent implements OnInit {
       (agente: Agente) => {
         this.msgs = [];
         this.msgs.push({
-          severity: "info",
+          severity: 'info',
           summary: `Registro ${agente.nombre} guardado`,
           detail: agente.nombre
         });
@@ -256,9 +257,10 @@ export class AgenteDetailComponent implements OnInit {
       },
       error => {
         const exception: Exception = this.commonService.handlerError(error);
+        this.agente.id = idAux;
         this.msgs = [];
         this.msgs.push({
-          severity: "error",
+          severity: 'error',
           summary: `${exception.title}`,
           detail: exception.body
         });
@@ -277,17 +279,16 @@ export class AgenteDetailComponent implements OnInit {
 
   /**
    * Filtra entre las opciones del componente en base a lo que va tipeando el usuario
-   * @param event
    */
   filtrar(event) {
     this.filterOptionsTipoDocumento = [];
     for (let i = 0; i < this.tiposDocumento.length; i++) {
-      let option = this.tiposDocumento[i];
+      const option = this.tiposDocumento[i];
 
       // campo a concatenar para comparar
-      let comparar: any = option["tipo"].toLowerCase();
-      let query: any = event.query.toLowerCase();
-      if (comparar.search(query) != -1) {
+      const comparar: any = option['tipo'].toLowerCase();
+      const query: any = event.query.toLowerCase();
+      if (comparar.search(query) !== -1) {
         this.filterOptionsTipoDocumento.push(option);
       }
     }

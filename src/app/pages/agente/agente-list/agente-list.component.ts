@@ -76,11 +76,11 @@ export class AgenteListComponent implements OnInit {
                   { field: 'nombre', header: 'Nombre' },
                   { field: 'apellido', header: 'Apellido' },
                   { field: 'numeroDocumento', header: 'Numero Documento' },
+                  { field: 'email', header: 'Email' },
                   { field: 'sexo', header: 'Sexo' },
                   { field: 'telefono', header: 'Telefono' },
-                  { field: 'numeroDocumento', header: 'Numero Documento' },
-                  { field: 'updatedAt', header: 'Actualizado' },
-                  { field: 'createdAt', header: 'Creado' },
+                 // { field: 'updatedAt', header: 'Actualizado' },
+                 // { field: 'createdAt', header: 'Creado' },
                   { field: 'fechaBaja', header: 'Fecha Baja' },
                   { field: 'accion', header: 'Acciones' }
                 ];

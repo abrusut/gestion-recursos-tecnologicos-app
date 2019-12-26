@@ -134,10 +134,6 @@ export class CommonService {
       return null;
     }
 
-    if (stringToDate) {
-      return DateUtils.convertStringToDate(object);
-    }
-
     // Si es una fecha la devuelvo en string formateado
     if (moment.isDate(object)) {
       object = DateUtils.convertDateToString(object);
@@ -147,14 +143,22 @@ export class CommonService {
     Object.keys(object).forEach((key: any) => {
       const value: any = object[key];
       if (value !== undefined && value !== null) {
-        if (moment.isDate(object)) {
+        if (moment.isDate(object) && !stringToDate) {
           object = DateUtils.convertDateToString(object);
+        } else {
+          if (moment.isDate(object) && stringToDate) {
+            object = DateUtils.convertStringToDate(object);
+          }
         }
-        if (moment(value, moment.ISO_8601, true).isValid()) {
+        if (moment(value, moment.ISO_8601, true).isValid() && !stringToDate) {
           object[key] = DateUtils.convertDateToString(value);
+        } else {
+          if (moment(value, moment.ISO_8601, true).isValid() && stringToDate) {
+            object[key] = DateUtils.convertStringToDate(value);
+          }
         }
         if (value !== undefined && (Array.isArray(value) || typeof value === 'object' )) {
-          return this.normalizePropertyDate(value);
+          this.normalizePropertyDate(value);
         }
       }
     });
